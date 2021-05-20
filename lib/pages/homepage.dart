@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tarsisquiz/Game.dart';
-import 'package:tarsisquiz/components.dart';
+import 'package:tarsisquiz/pages/game.dart';
+import 'package:tarsisquiz/components/components.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,6 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   // Colors
   int moreLightGreen = 0xff66ff66;
   int lightGreen = 0xff52ea5e;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tarsisquiz/HomePage.dart';
+import 'package:tarsisquiz/pages/homepage.dart';
 
 void main() {
   runApp(

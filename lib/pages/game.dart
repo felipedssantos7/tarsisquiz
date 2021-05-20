@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tarsisquiz/components.dart';
+import 'package:tarsisquiz/components/components.dart';
+import 'package:tarsisquiz/datas/questions.dart';
+import 'package:tarsisquiz/pages/endgame.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -11,49 +13,9 @@ class _GameState extends State<Game> {
   Function _nextQuestion = null;
   int index = 0;
 
-  // Questions.
-  List<Map<String, String>> questions = [
-    {
-      'enunciado' : '1) Qual presente de despedida você vai dar para a 925?',
-      'imagem' : 'assets/images/presente.png',
-      'A' : '24 computadores.',
-      'B' : 'Nota 10 pra geral.',
-      'C' : 'Vai bancar a formatura.',
-      'D' : 'Um emprego pra cada um.',
-      'E' : 'Uma viagem pra Disney.',
-      'correta' : 'D'
-    },
-    {
-      'enunciado' : '2) Qual o seu aluno favorito?',
-      'imagem' : 'assets/images/aluno_favorito.png',
-      'A' : 'Rony.',
-      'B' : 'Isabel.',
-      'C' : 'Jesus.',
-      'D' : 'Vitor.',
-      'E' : 'Nenhum, odeio todos.',
-      'correta' : 'E'
-    },
-    {
-      'enunciado' : '3) Qual a sua turma favorita?',
-      'imagem' : 'assets/images/turma_favorita.png',
-      'A' : '924.',
-      'B' : 'Nove dois quatro.',
-      'C' : 'Novecentos e vinte e quatro.',
-      'D' : 'novedois4',
-      'E' : '925.',
-      'correta' : 'E'
-    },
-    {
-      'enunciado' : '4) Você quer nosso padrinho?',
-      'imagem' : 'assets/images/tarsis_padrinho.png',
-      'A' : 'Nunca no Brasil!',
-      'B' : 'Sim.',
-      'C' : 'Yes.',
-      'D' : 'Com cerveja!',
-      'E' : 'Se vocês se formarem...',
-      'correta' : 'E'
-    }
-  ];
+  // Questões.
+  List<Map<String, String>> _questions;
+  TextEditingController _alunoFavorito = TextEditingController(text: 'Todos.');
 
   // Colors.
   int lightGreen = 0xff52ea5e;
@@ -66,6 +28,7 @@ class _GameState extends State<Game> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _questions = Questions().questions;
     _reset();
   }
 
@@ -78,23 +41,23 @@ class _GameState extends State<Game> {
           Container(
             margin: EdgeInsets.all(10),
             child: Text(
-              questions[index]['enunciado'],
+              "${index+1}) ${_questions[index]['enunciado']}",
               style: TextStyle(fontSize: 19.0),
             ),
           ),
           Container(
             height: 150.0,
-            child: Image.asset(questions[index]['imagem']),
+            child: Image.asset(_questions[index]['imagem']),
           ),
           _space(),
           Container(
             child: Column(
               children: [
-                _alternative('A', questions[index]['A']),
-                _alternative('B', questions[index]['B']),
-                _alternative('C', questions[index]['C']),
-                _alternative('D', questions[index]['D']),
-                _alternative('E', questions[index]['E']),
+                _alternative('A', _questions[index]['A']),
+                _alternative('B', _questions[index]['B']),
+                _alternative('C', _questions[index]['C']),
+                _alternative('D', _questions[index]['D']),
+                (index+1) == 2 ? _alternative('E', _alunoFavorito.text) : _alternative('E', _questions[index]['E']),
               ],
             ),
           ),
@@ -126,24 +89,30 @@ class _GameState extends State<Game> {
           child: InkWell(
             onTap: (){
               setState(() {
-
                 // Seleciona questão e verifica se acertou ou errou.
                 _alternativeColor['${letter}'] = Colors.grey[400];
-                if(letter == questions[index]['correta']){
+                if(letter == _questions[index]['correta']){
+                  // Color da letra da alternativa.
                   _letterAlternativeColor['${letter}'] = Color(lightGreen);
+                  // Muda texto da alternativa.
+                  if(index+1 == 2){
+                    _alunoFavorito.text = 'Nenhum, odeio todos!';
+                  }
+                  // Botão.
+                  _buttonNextPageColor = Colors.green;
+                  _nextQuestion = (){
+                    setState(() {
+                      if(index < (_questions.length-1)){
+                        index = index + 1;
+                        _reset();
+                      } else {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EndGame()));
+                      }
+                    });
+                  };
                 } else {
                   _letterAlternativeColor['${letter}'] = Color(lightRed);
                 }
-                // Botão.
-                _buttonNextPageColor = Colors.green;
-                _nextQuestion = (){
-                  setState(() {
-                    if(index < (questions.length-1)){
-                      index = index + 1;
-                      _reset();
-                    }
-                  });
-                };
               });
             },
             child: Container(
@@ -176,7 +145,17 @@ class _GameState extends State<Game> {
                       ),
                       Container(width: 10.0),
                       Container(
-                        child: Text('${text}', style: TextStyle(fontSize: 16.0),),
+                        child: Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${text}',
+                                style: TextStyle(fontSize: 16.0),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
