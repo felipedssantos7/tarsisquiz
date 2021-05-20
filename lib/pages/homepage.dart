@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tarsisquiz/pages/credits.dart';
 import 'package:tarsisquiz/pages/game.dart';
 import 'package:tarsisquiz/components/components.dart';
 
@@ -30,9 +34,12 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             _buildSuperImage(),
-            _buildButton('Jogar', lightGreen, hardGreen, moreLightGreen, Game()),
-            _buildButton('Créditos', lightBlue, hardBlue, moreLightBlue, Container()),
-            _buildButton('Sair', lightRed, hardRed, moreLightRed, Container()),
+            _buildButton('Jogar', lightGreen, hardGreen, moreLightGreen,
+                    () => Navigator.push(context, MaterialPageRoute(builder: (context) => Game()))),
+            _buildButton('Créditos', lightBlue, hardBlue, moreLightBlue,
+                    () => Navigator.push(context, MaterialPageRoute(builder: (context) => Credits()))),
+            _buildButton('Sair', lightRed, hardRed, moreLightRed,
+                    () => SystemChannels.platform.invokeMethod('SystemNavigator.pop')),
             _space(),
           ],
         ),
@@ -72,15 +79,13 @@ class _HomePageState extends State<HomePage> {
         child: Image.asset('assets/images/001_tarsis.png'));
   }
 
-  _buildButton(String text, int colorCenter, int colorBR, int colorTL, Widget nextPage) {
+  _buildButton(String text, int colorCenter, int colorBR, int colorTL, Function action) {
     return Center(
         child: Container(
           margin: EdgeInsets.only(bottom: 5.0),
           child: Material(
             child: InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
-              },
+              onTap: action,
               child: Container(
                 height: 80.0,
                 width: 200.0,
@@ -133,4 +138,9 @@ class _HomePageState extends State<HomePage> {
   _space() {
     return Container(height: 15.0);
   }
+
+  exitOfApp(){
+    return Container();
+  }
+
 }

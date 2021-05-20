@@ -36,7 +36,7 @@ class Questions {
     },
     {
       'enunciado' : 'Qual a sua disciplina favorita?',
-      'imagem' : 'assets/images/turma_favorita.png',
+      'imagem' : 'assets/images/lagrimas.jpg',
       'A' : 'Introdução à programção.',
       'B' : 'Banco de dados.',
       'C' : 'Programação móvel.',
@@ -65,21 +65,6 @@ class Questions {
       'correta' : 'C'
     },
     {
-      'enunciado' : 'Você quer ser nosso padrinho?',
-      'imagem' : 'assets/images/tarsis_padrinho.png',
-      'A' : 'Nunca no Brasil!',
-      'B' : 'Com cerveja!',
-      'C' : 'Sim || Yes',
-      'D' : 'Só aceito se for como homenageado.',
-      'E' :
-'''
-if(vocesSeFormarem == true){
-  printf("Sim");
-}
-''',
-      'correta' : 'D'
-    },
-    {
       'enunciado' : 'Como você vai resolver o problema do desemprego e da miséria que atingirá seus ex-alunos?',
       'imagem' : 'assets/images/turma_favorita.png',
       'A' : 'Ema ema ema cada um com seus problemas.',
@@ -88,6 +73,21 @@ if(vocesSeFormarem == true){
       'D' : 'Vou indicar os nomes deles para vagas de emprego.',
       'E' : 'Nenhuma das alternativas anteriores.',
       'correta' : 'A'
-    }
+    },
+    {
+      'enunciado' : 'Você quer ser nosso padrinho?',
+      'imagem' : 'assets/images/tarsis_padrinho.png',
+      'A' : 'Nunca no Brasil!',
+      'B' : 'Com cerveja!',
+      'C' : 'Sim || Yes',
+      'D' : 'Só aceito se for como homenageado.',
+      'E' :
+      '''
+if(vocesSeFormarem == true){
+  printf("Sim");
+}
+''',
+      'correta' : 'D'
+    },
   ];
 }

@@ -15,7 +15,6 @@ buildAppBar(){
             ),
           ),
         ),
-        height: 80.0,
         child: Image.asset('assets/images/appbar.png'),
       ),
     ),
